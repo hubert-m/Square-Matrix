@@ -10,10 +10,10 @@ public:
 	Matrix(int size) {
 		this->size = size;
 		this->date = new double*[this->size];
-		for (int i=0;i<size;i++) {
-			this->date[i] = new double[this->size];
-			for(int j=0;j<size;j++) {
-				this->date[i][j] = 0;
+		for (int row=0;row<size;row++) {
+			this->date[row] = new double[this->size];
+			for(int col=0;col<size;col++) {
+				this->date[row][col] = 0;
 			}
 		}
 	}
@@ -21,10 +21,10 @@ public:
 	Matrix (Matrix& backup) {
 		this->size = backup.size;
 		this->date = new double*[this->size];
-		for(int i=0;i<this->size;i++) {
-			this->date[i] = new double[this->size];
-			for(int j=0;j<this->size;j++) {
-				this->date[i][j] = backup.date[i][j];
+		for(int row=0;row<this->size;row++) {
+			this->date[row] = new double[this->size];
+			for(int col=0;col<this->size;col++) {
+				this->date[row][col] = backup.date[row][col];
 			}
 		}
 	}
@@ -35,9 +35,9 @@ public:
 
 	Matrix operator * (double number) {
 		Matrix result(this->size);
-		for(int i=0;i<result.size;i++) {
-			for(int j=0;j<result.size;j++) {
-				result.date[i][j] = this->date[i][j] * number;
+		for(int row=0;row<result.size;row++) {
+			for(int col=0;col<result.size;col++) {
+				result.date[row][col] = this->date[row][col] * number;
 			}
 		}
 		return result;
@@ -48,9 +48,9 @@ public:
 		if(this->size != second.size) {
 			return result;
 		} else {
-			for(int i=0;i<result.size;i++) {
-				for(int j=0;j<result.size;j++) {
-					result.date[i][j] = this->date[i][j] + second.date[i][j];
+			for(int row=0;row<result.size;row++) {
+				for(int col=0;col<result.size;col++) {
+					result.date[row][col] = this->date[row][col] + second.date[row][col];
 				}
 			}
 			return result;
@@ -59,9 +59,9 @@ public:
 
 	Matrix operator = (const Matrix& second) {
 		this->size = second.size;
-		for(int i=0;i<this->size;i++) {
-			for(int j=0;j<this->size;j++) {
-				this->date[i][j] = second.date[i][j];
+		for(int row=0;row<this->size;row++) {
+			for(int col=0;col<this->size;col++) {
+				this->date[row][col] = second.date[row][col];
 			}
 		}
 		return *this;
@@ -70,28 +70,28 @@ public:
 	Matrix operator * (const Matrix& second) {
 		Matrix result(*this);
 		int tmp = 0;
-		for(int i=0;i<result.size;i++) {
-			for(int j=0;j<result.size;j++) {
+		for(int row=0;row<result.size;row++) {
+			for(int col=0;col<result.size;col++) {
 				tmp = 0;
 				for(int k=0;k<result.size;k++) {
-					tmp = tmp + (this->date[i][k] * second.date[k][j]);
+					tmp = tmp + (this->date[row][k] * second.date[k][col]);
 				}
-				result.date[i][j] = tmp;
+				result.date[row][col] = tmp;
 			}
 		}
 		return result;
 	}
 
-	double* operator[](int i) {
-		return this->date[i];
+	double* operator[](int row) {
+		return this->date[row];
 	}
 
 	int getSize() {
 		return size;
 	}
 
-	double getDate(int a, int b) {
-		return date[a][b];
+	double getDate(int row, int col) {
+		return date[row][col];
 	}
 
 	void setDate(int row, int col, double value) {
@@ -105,9 +105,9 @@ public:
 };
 
 ostream& operator<<(ostream& s, const Matrix& o) {
-	for(int i=0;i<o.size;i++) {
-		for(int j=0;j<o.size;j++) {
-			s<<o.date[i][j]<<"\t";
+	for(int row=0;row<o.size;row++) {
+		for(int col=0;col<o.size;col++) {
+			s<<o.date[row][col]<<"\t";
 		}
 		cout<<"\n\n";
 	}
@@ -117,10 +117,10 @@ ostream& operator<<(ostream& s, const Matrix& o) {
 
 istream& operator>>(istream& s, const Matrix& o) {
 	cout<<"Enter matrix values:\n";
-	for(int i=0;i<o.size;i++) {
-		for(int j=0;j<o.size;j++) {
-			cout<<i+1<<" row, "<<j+1<<" column: ";
-			s>>o.date[i][j];
+	for(int row=0;row<o.size;row++) {
+		for(int col=0;col<o.size;col++) {
+			cout<<row+1<<" row, "<<col+1<<" column: ";
+			s>>o.date[row][col];
 		}
 	}
 	return s;
@@ -128,9 +128,9 @@ istream& operator>>(istream& s, const Matrix& o) {
 
 Matrix operator * (double number, const Matrix& first) {
 	Matrix result(first.size);
-	for(int i=0;i<result.size;i++) {
-		for(int j=0;j<result.size;j++) {
-			result.date[i][j] = first.date[i][j] * number;
+	for(int row=0;row<result.size;row++) {
+		for(int col=0;col<result.size;col++) {
+			result.date[row][col] = first.date[row][col] * number;
 		}
 	}
 	return result;
